@@ -83,11 +83,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: |
           echo "This should work now"
-          mkdir -p ~/.gnupg
-          echo "use-agent" >> ~/.gnupg/gpg.conf
-          echo "pinentry-mode loopback" >> ~/.gnupg/gpg.conf
-          echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
-          echo RELOADAGENT | gpg-connect-agent
+          export GPG_TTY=$(tty)
 
 
           echo -e "${GPG_PRIVATE_KEY}" | gpg --import --batch --no-tty
