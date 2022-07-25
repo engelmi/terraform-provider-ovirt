@@ -90,6 +90,7 @@ jobs:
           find ~/.gnupg -type d -exec chmod 700 {} \;
           echo RELOADAGENT | gpg-connect-agent
 
+
           echo -e "${GPG_PRIVATE_KEY}" | gpg --import --batch --no-tty
           if [ -n "${PASSPHRASE}" ]; then
             echo "" > /tmp/test.txt
@@ -104,7 +105,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         uses: goreleaser/goreleaser-action@v3
         with:
-          version: latest
+          version: v0.162.0
           args: release --rm-dist
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
@@ -113,5 +114,5 @@ jobs:
         if: "!startsWith(github.ref, 'refs/tags/')"
         uses: goreleaser/goreleaser-action@v3
         with:
-          version: latest
+          version: v0.162.0
           args: build --snapshot
